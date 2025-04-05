@@ -1,22 +1,69 @@
 import { state } from "src/store/state";
 import { generateRandomCarData } from "src/utils/utils";
 import { createNewCarInGarage, updateCarAttributes } from "src/api/api";
-import { createButton, createDiv, createInput } from "./elements";
+import createElement from "../utils/createElement";
 import { createNewCar, renderGarageContent } from "./functions";
 
-const inputChooseCarModel = createInput("text", "model", "input-car-model", "Choose the model");
-const inputChooseCarColor = createInput("color", "color", "input-color", "");
-const inputUpdateCarModel = createInput("text", "model", "input-car-model", "Choose the model");
-const inputUpdateCarColor = createInput("color", "color", "input-color", "");
-export const chooseModesContainer = createDiv("choose-modes-container");
-const chooseContainer = createDiv("choose-container");
-const createCarButton = createButton("color-button", ["create-button"], "create");
-const updateContainer = createDiv("update-container");
-const updateCarButton = createButton("color-button", ["update-button"], "update");
-const raceButtonsContainer = createDiv("race-buttons-container");
-const raceButton = createButton("race", ["race-button"], "race");
-const resetButton = createButton("reset", ["reset-button"], "reset");
-const generateCarsButton = createButton("generate", ["generate-button"], "generate cars");
+const inputChooseCarModel = createElement({
+  tagName: "input",
+  classNames: ["input-car-model"],
+  attributes: { type: "text", placeholder: "Choose the model" },
+});
+const inputChooseCarColor = createElement({
+  tagName: "input",
+  classNames: ["input-color"],
+  attributes: { type: "color", name: "color" },
+});
+const inputUpdateCarModel = createElement({
+  tagName: "input",
+  classNames: ["input-car-model"],
+  attributes: { type: "text", placeholder: "Choose the model" },
+});
+const inputUpdateCarColor = createElement({
+  tagName: "input",
+  classNames: ["input-color"],
+  attributes: { type: "color", name: "color" },
+});
+export const chooseModesContainer = createElement({
+  tagName: "div",
+  classNames: ["choose-modes-container"],
+});
+const chooseContainer = createElement({ tagName: "div", classNames: ["choose-container"] });
+const createCarButton = createElement({
+  tagName: "button",
+  classNames: ["create-button"],
+  textContent: "create",
+  attributes: { name: "color-button" },
+});
+const updateContainer = createElement({ tagName: "div", classNames: ["update-container"] });
+const updateCarButton = createElement({
+  tagName: "button",
+  classNames: ["update-button"],
+  textContent: "update",
+  attributes: { name: "color-button" },
+});
+const raceButtonsContainer = createElement({
+  tagName: "div",
+  classNames: ["race-buttons-container"],
+});
+const raceButton = createElement({
+  tagName: "button",
+  classNames: ["race-button"],
+  textContent: "race",
+  attributes: { name: "race" },
+});
+const resetButton = createElement({
+  tagName: "button",
+  classNames: ["reset-button"],
+  textContent: "reset",
+  attributes: { name: "reset" },
+});
+const generateCarsButton = createElement({
+  tagName: "button",
+  classNames: ["generate-button"],
+  textContent: "generate cars",
+  attributes: { name: "generate" },
+});
 
 state.components.inputUpdateCarModel = inputUpdateCarModel;
 state.components.inputUpdateCarColor = inputUpdateCarColor;

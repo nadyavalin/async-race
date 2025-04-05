@@ -7,7 +7,7 @@ export function selectCar(eventTarget: HTMLDivElement) {
     const carId = carElement.dataset.id;
     state.selectedCar = state.cars.find((car) => String(car.id) === carId);
     state.selectedCarArea = carElement;
-    
+
     if (state.components.inputUpdateCarModel) {
       state.components.inputUpdateCarModel.value = state.selectedCar?.name ?? "";
     }
@@ -20,7 +20,7 @@ export function selectCar(eventTarget: HTMLDivElement) {
 
 export async function deleteCar(eventTarget: HTMLDivElement) {
   const carElement = eventTarget.closest(".car-area") as HTMLDivElement;
-  const carId = carElement?.dataset.id; 
+  const carId = carElement?.dataset.id;
   if (carElement && carId) {
     state.selectedCar = state.cars.find((car) => String(car.id) === carId);
     if (state.selectedCar) {

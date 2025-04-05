@@ -1,37 +1,34 @@
-import {
-  Car,
-  CarsResponse,
-  CarWinner,
-  NewCar,
-  CarsStatus,
-} from "../types/interfaces";
+import { Car, CarsResponse, CarWinner, NewCar, CarsStatus } from "../types/interfaces";
 
 const BASE_URL = "http://127.0.0.1:3000";
+const DEFAULT_PAGE_LIMIT = 7;
+
+export async function getCarsPerPage(
+  page?: number,
+  limit: number = DEFAULT_PAGE_LIMIT,
+): Promise<CarsResponse> {
+  const url = new URL(`${BASE_URL}/garage`);
+  if (page) {
+    url.searchParams.append("_page", page.toString());
+    url.searchParams.append("_limit", limit.toString());
+  }
+  const response = await fetch(url.toString());
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const cars: Car[] = await response.json();
+  const total = response.headers.get("X-Total-Count");
+
+  return { cars, total };
+}
 
 export async function getWinners() {
   const apiURLGarage = `${BASE_URL}/winners`;
   const response = await fetch(apiURLGarage);
   const winners = await response.json();
   return winners;
-}
-
-export async function getCarsPerPage(page?: number): Promise<CarsResponse> {
-  const apiURLGarage = `${BASE_URL}/garage`;
-  const response = await fetch(
-    page ? `${apiURLGarage}?_page=${page}&_limit=7` : apiURLGarage,
-  );
-
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-
-  const cars = await response.json();
-  const total = response.headers.get("X-Total-Count");
-
-  return {
-    cars,
-    total,
-  };
 }
 
 export async function getWinner(id: number): Promise<CarWinner> {
@@ -77,10 +74,7 @@ export async function deleteCarFromGarage(id: number): Promise<void> {
 }
 
 // it doesn't use yet
-export async function controlCarEngine(
-  id: number,
-  status: boolean,
-): Promise<CarsStatus> {
+export async function controlCarEngine(id: number, status: boolean): Promise<CarsStatus> {
   const response = await fetch(`${BASE_URL}/engine?id=${id}&status=${status}`, {
     method: "PATCH",
   });

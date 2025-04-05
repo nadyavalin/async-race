@@ -1,7 +1,12 @@
 import "./index.css";
 import { showGaragePage, garageArea } from "./components/functions";
 import { state } from "./store/state";
-import { chooseRoomContainer, prevNextButtons, prevButton, nextButton } from "./components/contentButtons";
+import {
+  chooseRoomContainer,
+  prevNextButtons,
+  prevButton,
+  nextButton,
+} from "./components/contentButtons";
 import { chooseModesContainer } from "./components/modesArea";
 
 async function loadGaragePage() {

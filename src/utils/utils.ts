@@ -9,9 +9,7 @@ export function generateRandomCarData() {
   const randomCarIndex = Math.floor(Math.random() * carNames.length);
   const randomCarName = carNames[randomCarIndex];
 
-  const randomCarModelIndex = Math.floor(
-    Math.random() * carModels[randomCarIndex].length,
-  );
+  const randomCarModelIndex = Math.floor(Math.random() * carModels[randomCarIndex].length);
   const randomCarModel = carModels[randomCarIndex][randomCarModelIndex];
 
   return {

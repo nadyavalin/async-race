@@ -18,40 +18,14 @@ export const carNames = [
 ];
 
 export const carModels = [
-  [
-    "Logan",
-    "Clio",
-    "Clio RS",
-    "Dokker",
-    "Espace",
-    "Fluence",
-    "Kangoo",
-    "Symbol",
-  ], // Renault
-  [
-    "Focus",
-    "Aerostar",
-    "Aspire",
-    "Bantam",
-    "B-MAX",
-    "C-MAX",
-    "Contour",
-    "Corcel",
-  ], // Ford
+  ["Logan", "Clio", "Clio RS", "Dokker", "Espace", "Fluence", "Kangoo", "Symbol"], // Renault
+  ["Focus", "Aerostar", "Aspire", "Bantam", "B-MAX", "C-MAX", "Contour", "Corcel"], // Ford
   ["Camry", "C-HR", "RAV4", "Fortuner", "Alphard", "Corolla", "Avalon"], // Toyota
   ["X6", "iX M60", "i7", "i5", "i4 M50", "iX2", "X7 M50d", "X6 M"], // BMW
   ["Sonata", "Elantra", "Solaris", "Tucson", "Creta", "Accent", "Palisade"], // Hyundai
   ["Polo", "Golf", "Tiguan", "Passat", "Touareg", "Jetta", "Tayron"], // Volkswagen
   ["GT-R", "Juke", "Pathfinder", "Patrol", "Qashqai", "Sentra", "Teana"], // Nissan
-  [
-    "Tahoe",
-    "Traiblazer",
-    "Cruze Sedan",
-    "Cobalt",
-    "Spark",
-    "Aveo Hatchback",
-    "Aveo Sedan",
-  ], // Chevrolet
+  ["Tahoe", "Traiblazer", "Cruze Sedan", "Cobalt", "Spark", "Aveo Hatchback", "Aveo Sedan"], // Chevrolet
   [
     "AMG GT roadster",
     "GLA",

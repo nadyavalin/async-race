@@ -1,33 +1,63 @@
-import { createText, createButton, createDiv } from "./elements";
+import createElement from "../utils/createElement";
 import { svgCarElement, svgFlagElement } from "./svgElements";
 import { Car } from "../types/interfaces";
 import { state } from "../store/state";
 import { getCarsPerPage, getWinners } from "../api/api";
 import { deleteCar, selectCar } from "./carButtons";
 
-export const garageContent = createDiv("garage-content");
-export const garageArea = createDiv("garage-area");
-garageArea.append(garageContent);
+export const garageContent = createElement({ tagName: "div", classNames: ["garage-content"] });
+export const garageArea = createElement({ tagName: "div", classNames: ["garage-area"] });
 
-export const winnersContent = createDiv("winners-content");
+export const winnersContent = createElement({ tagName: "div", classNames: ["winners-content"] });
 
 export function createNewCar(car: Car) {
-  const carAreaButtons = createDiv("car-area-buttons");
-  const selectButton = createButton("select", ["select-button"], "select");
-  const removeButton = createButton("remove", ["remove-button"], "remove");
-  const modalText = createText("model-text", "");
-  modalText.textContent = car.name;
-  const carArea = createDiv("car-area");
-  carArea.setAttribute("data-id", `${car.id}`);
-  const actionButtons = createDiv("action-buttons");
-  const aButton = createButton("a", ["a-button"], "A");
-  const bButton = createButton("b", ["b-button"], "B");
-  const road = createDiv("road");
-  const svgCar = createDiv("car");
-  svgCar.innerHTML = svgCarElement;
+  const carAreaButtons = createElement({ tagName: "div", classNames: ["car-area-buttons"] });
+  const selectButton = createElement({
+    tagName: "button",
+    classNames: ["select-button"],
+    textContent: "select",
+    attributes: { id: "select", name: "select" },
+  });
+  const removeButton = createElement({
+    tagName: "button",
+    classNames: ["remove-button"],
+    textContent: "remove",
+    attributes: { id: "remove", name: "remove" },
+  });
+  const modalText = createElement({
+    tagName: "p",
+    classNames: ["model-text"],
+    textContent: `${car.name}`,
+  });
+  const carArea = createElement({
+    tagName: "div",
+    classNames: ["car-area"],
+    attributes: { "data-id": `${car.id}` },
+  });
+
+  const actionButtons = createElement({ tagName: "div", classNames: ["action-buttons"] });
+  const aButton = createElement({
+    tagName: "button",
+    classNames: ["a-button"],
+    textContent: "A",
+    attributes: { id: "a", name: "a" },
+  });
+  const bButton = createElement({
+    tagName: "button",
+    classNames: ["b-button"],
+    textContent: "B",
+    attributes: { id: "b", name: "b" },
+  });
+  const road = createElement({ tagName: "div", classNames: ["road"] });
+  const svgCar = createElement({ tagName: "div", classNames: ["car"], innerHTML: svgCarElement });
   svgCar.style.setProperty("--svg-fill-color", car.color);
-  const finishFlag = createDiv("finish-flag");
-  finishFlag.innerHTML = svgFlagElement;
+
+  const finishFlag = createElement({
+    tagName: "div",
+    classNames: ["finish-flag"],
+    innerHTML: svgFlagElement,
+  });
+  garageArea.append(garageContent);
   actionButtons.append(aButton, bButton);
   carAreaButtons.append(selectButton, removeButton, modalText);
   carArea.append(carAreaButtons, actionButtons, svgCar, road, finishFlag);
@@ -39,9 +69,17 @@ export function createNewCar(car: Car) {
 
 export async function showGaragePage(): Promise<HTMLDivElement> {
   const carsResponse = await getCarsPerPage(state.page);
-  const garageText = createText("garage-text", `Garage (${carsResponse.total})`);
+  const garageText = createElement({
+    tagName: "p",
+    classNames: ["garage-text"],
+    textContent: `Garage (${carsResponse.total})`,
+  });
   state.totalCars = Number(carsResponse.total);
-  const pagesGarageText = createText("pages", `Page #${state.page}`);
+  const pagesGarageText = createElement({
+    tagName: "p",
+    classNames: ["pages"],
+    textContent: `Page #${state.page}`,
+  });
   garageArea.append(garageText, pagesGarageText);
   state.cars = carsResponse.cars;
   carsResponse.cars.forEach((car) => {
@@ -60,13 +98,15 @@ export async function renderGarageContent() {
   if (state.totalCars <= 7 || state.page === totalPages) {
     state.components.nextButton?.classList.add("next-button_disabled");
   }
-  
+
   garageArea.append(garageContent);
 }
 
-const svgCar = createDiv("car");
-svgCar.classList.add("car_small");
-svgCar.innerHTML = svgCarElement;
+const svgCar = createElement({
+  tagName: "div",
+  classNames: ["car", "car_small"],
+  innerHTML: svgCarElement,
+});
 
 export async function createWinnersTable(): Promise<HTMLDivElement> {
   const winners = await getWinners();
@@ -116,7 +156,7 @@ export async function createWinnersTable(): Promise<HTMLDivElement> {
   return winnersContent;
 }
 
-garageContent.addEventListener("click", async (event) => {
+garageContent.addEventListener("click", async (event: Event) => {
   const eventTarget = event.target as HTMLDivElement;
   if (eventTarget?.classList.contains("remove-button")) {
     await deleteCar(eventTarget);
