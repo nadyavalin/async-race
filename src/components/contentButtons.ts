@@ -75,8 +75,9 @@ toWinners.addEventListener("click", async () => {
 
 toGarage.addEventListener("click", async () => {
   toGarage.classList.add("garage-button_disabled");
-  const garagePage = await showGaragePage();
   toWinners.classList.remove("winners-button_disabled");
+  garageArea.innerHTML = "";
+  const garagePage = await showGaragePage();
   garageArea.append(garagePage);
   document.body.removeChild(winnersContent);
   document.body.append(chooseModesContainer, garageArea, prevNextButtons);

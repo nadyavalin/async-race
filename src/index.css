@@ -1,56 +1,77 @@
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+}
+
+:root {
+  --text-color: #d3d3d3;
+  --text-color-disabled: #adadad;
+  --background-color: #0e003d;
+  --button-color: #004fbd;
+  --button-disabled-color: #488be9;
+  --button-hover-color: #3079df;
+  --button-shadow-color: rgb(92 89 233 / 45%);
+  --action-button-color: #09b400;
+  --action-button-shadow-color: rgb(0 200 57 / 45%);
+  --table-border-color: #3079df;
+  --table-background-color: #002962;
+  --top-cell-color: #004fbd;
 }
 
 body {
-  color: #d3d3d3;
-  background-color: #0e003d;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 20px;
   min-height: calc(100vh - 40px);
   margin: 20px;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  color: var(--text-color);
+
+  background-color: var(--background-color);
 }
 
 .choose-room-container {
   display: flex;
   gap: 10px;
-  padding-bottom: 20px;
   margin-top: 20px;
+  padding-bottom: 20px;
 }
 
 button {
-  font-size: 14px;
-  padding: 10px;
+  cursor: pointer;
+
   width: 150px;
   height: 35px;
+  padding: 10px;
   border: none;
   border-radius: 5px;
-  background-color: #004fbd;
-  box-shadow: 4px 4px 4px rgba(92, 89, 233, 0.45);
-  color: #d3d3d3;
+
+  font-size: 14px;
+  color: var(--text-color);
   text-transform: uppercase;
-  cursor: pointer;
+
+  background-color: var(--button-color);
+  box-shadow: 4px 4px 4px var(--button-shadow-color);
+
   transition: background-color 0.5s ease-in-out;
 }
 
 .create-button,
 .update-button {
-  background-color: #09b400;
-  box-shadow: 4px 4px 4px rgba(0, 200, 57, 0.45);
+  background-color: var(--action-button-color);
+  box-shadow: 4px 4px 4px var(--action-button-shadow-color);
 }
 
 .generate-button {
   width: 200px;
-  background-color: #09b400;
-  box-shadow: 4px 4px 4px rgba(0, 200, 57, 0.45);
+  background-color: var(--action-button-color);
+  box-shadow: 4px 4px 4px var(--action-button-shadow-color);
 }
 
 input {
   height: 35px;
-  border-radius: 5px;
   padding: 3px;
+  border-radius: 5px;
 }
 
 .input-car-model {
@@ -96,16 +117,18 @@ input {
 
 .car-area {
   position: relative;
+
   display: flex;
   flex-direction: column;
   gap: 10px;
+
   margin-bottom: -100px;
 }
 
 .car-area-buttons {
   display: flex;
-  align-items: center;
   gap: 10px;
+  align-items: center;
 }
 
 .action-buttons {
@@ -116,8 +139,8 @@ input {
 .a-button,
 .b-button {
   width: 30px;
+  border: 1px solid var(--button-color);
   background-color: transparent;
-  border: 1px solid #004fbd;
 }
 
 .model-text {
@@ -135,65 +158,72 @@ input {
   position: static;
   bottom: 0;
   left: 0;
-  fill: var(--svg-fill-color);
+
   width: 50px;
+
+  fill: var(--svg-fill-color);
 }
 
 .road {
   position: relative;
   top: -100px;
   width: 100%;
-  border-bottom: 3px dashed #ffffff;
+  border-bottom: 3px dashed var(--text-color);
 }
 
 .finish-flag {
   position: relative;
   bottom: 166px;
   left: 90%;
+
   width: 50px;
   height: 50px;
 }
 
 .prev-next-buttons {
   position: relative;
+  z-index: 10;
+  bottom: 0;
+
   display: flex;
   gap: 10px;
+
   width: 100%;
-  bottom: 0;
   margin-bottom: 20px;
-  z-index: 10;
 }
 
 .prev-button_disabled,
 .next-button_disabled,
 .garage-button_disabled,
 .winners-button_disabled {
-  background-color: #488be9;
-  color: #adadad;
-  cursor: default;
   pointer-events: none;
+  cursor: default;
+  color: var(--text-color-disabled);
+  background-color: var(--button-disabled-color);
 }
 
 .winners-table {
-  font-size: 16px;
-  border: 1px solid #3079df;
-  background-color: #002962;
   width: 60%;
   margin-bottom: 100px;
+  border: 1px solid var(--table-border-color);
+
+  font-size: 16px;
+
+  background-color: var(--table-background-color);
 }
 
 .head-row-table {
-  background-color: #3079df;
+  background-color: var(--table-border-color);
 }
 
 .cell-table {
-  border: 1px solid #0337a6;
   padding: 5px;
+  border: 1px solid var(--top-cell-color);
   text-align: center;
 }
 
 @media (hover: hover) {
   button:hover {
-    background-color: #3079df;
+    background-color: var(--button-hover-color);
   }
 }

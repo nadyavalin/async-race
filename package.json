@@ -10,7 +10,9 @@
     "format": "prettier --write .",
     "ci:format": "prettier --check .",
     "lint": "eslint --ext .ts,.js src/",
-    "lint:fix": "eslint --fix --ext .ts,.js src/"
+    "lint:fix": "eslint --fix --ext .ts,.js src/",
+    "stylelint": "npx stylelint **/*.css",
+    "stylelint:fix": "stylelint **/*.css --fix"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +36,9 @@
     "html-webpack-plugin": "^5.6.0",
     "prettier": "3.0.3",
     "style-loader": "^3.3.4",
+    "stylelint": "^16.17.0",
+    "stylelint-config-clean-order": "^7.0.0",
+    "stylelint-config-standard": "^37.0.0",
     "ts-loader": "^9.5.1",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript": "^5.3.3",
@@ -45,6 +50,7 @@
     "webpack-merge": "^5.10.0"
   },
   "dependencies": {
-    "external-svg-loader": "^1.7.1"
+    "external-svg-loader": "^1.7.1",
+    "stylelint-selector-bem-pattern": "^4.0.1"
   }
 }
