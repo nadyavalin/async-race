@@ -1,29 +1,11 @@
 import { state } from "src/store/state";
 import { generateRandomCarData } from "src/utils/utils";
-import { createNewCarInGarage, updateCarAttributes } from "src/api/api";
-import createElement from "../utils/createElement";
-import { createNewCar, renderGarageContent } from "./functions";
+import { createNewCarInGarage } from "src/api/api";
+import renderGarageContent from "src/render/render";
+import createElement from "../../utils/createElement";
+import { inputUpdateCarColor, inputUpdateCarModel, updateCar } from "../modes/updateCar";
+import { createNewCar, inputChooseCarColor, inputChooseCarModel } from "../modes/createNewCar";
 
-const inputChooseCarModel = createElement({
-  tagName: "input",
-  classNames: ["input-car-model"],
-  attributes: { type: "text", placeholder: "Choose the model" },
-});
-const inputChooseCarColor = createElement({
-  tagName: "input",
-  classNames: ["input-color"],
-  attributes: { type: "color", name: "color" },
-});
-const inputUpdateCarModel = createElement({
-  tagName: "input",
-  classNames: ["input-car-model"],
-  attributes: { type: "text", placeholder: "Choose the model" },
-});
-const inputUpdateCarColor = createElement({
-  tagName: "input",
-  classNames: ["input-color"],
-  attributes: { type: "color", name: "color" },
-});
 export const chooseModesContainer = createElement({
   tagName: "div",
   classNames: ["choose-modes-container"],
@@ -75,46 +57,6 @@ chooseModesContainer.append(chooseContainer, updateContainer, raceButtonsContain
 
 document.body.append(chooseModesContainer);
 
-async function createNewCarItem() {
-  const newCar = await createNewCarInGarage({
-    name: inputChooseCarModel.value,
-    color: inputChooseCarColor.value,
-  });
-  createNewCar(newCar);
-  inputChooseCarModel.value = "";
-  inputChooseCarColor.value = "#000000";
-  await renderGarageContent();
-}
-
-async function updateCar() {
-  if (state.selectedCar && state.selectedCarArea) {
-    const updatedCarData = {
-      name: inputUpdateCarModel.value,
-      color: inputUpdateCarColor.value,
-      id: state.selectedCar.id,
-    };
-    await updateCarAttributes(updatedCarData);
-
-    if (updatedCarData) {
-      const newName = state.selectedCarArea.querySelector(".model-text") as HTMLElement | null;
-      const newColor = state.selectedCarArea.querySelector(".car") as HTMLElement | null;
-
-      if (newName) {
-        newName.innerText = updatedCarData.name;
-        state.selectedCar.name = updatedCarData.name;
-        inputUpdateCarModel.value = "";
-      }
-      if (newColor) {
-        newColor.removeAttribute("style");
-        newColor.style.fill = updatedCarData.color;
-        state.selectedCar.color = updatedCarData.color;
-        inputUpdateCarColor.value = "#000000";
-      }
-    }
-  }
-  await renderGarageContent();
-}
-
 async function generateCars() {
   const carPromises = [];
 
@@ -128,7 +70,7 @@ async function generateCars() {
   state.components.nextButton?.classList.remove("next-button_disabled");
 }
 
-createCarButton.addEventListener("click", createNewCarItem);
+createCarButton.addEventListener("click", createNewCar);
 updateCarButton.addEventListener("click", updateCar);
 generateCarsButton.addEventListener("click", generateCars);
 
