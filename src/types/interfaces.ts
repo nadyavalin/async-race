@@ -12,11 +12,6 @@ export interface CarsResponse {
   total: string | null;
 }
 
-export interface CarsStatus {
-  id: number;
-  status: boolean;
-}
-
 export interface CarWinner {
   id: number;
   wins: number;
@@ -39,8 +34,11 @@ interface Components {
   inputUpdateCarColor: HTMLInputElement | null;
 }
 
-// it doesn't use yet
-export interface CarEngine {
+export interface CarStatus {
+  status: "started" | "stopped" | "drive";
+}
+
+export interface CarEngineResponse {
   velocity: number;
   distance: number;
 }

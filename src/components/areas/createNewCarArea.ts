@@ -2,11 +2,11 @@ import createElement from "../../utils/createElement";
 import { svgCarElement, svgFlagElement } from "../svgElements";
 import { Car } from "../../types/interfaces";
 import { state } from "../../store/state";
+// import CarController from "../carController";
 
 export const garageContent = createElement({ tagName: "div", classNames: ["garage-content"] });
 export const garageArea = createElement({ tagName: "div", classNames: ["garage-area"] });
 export const winnersContent = createElement({ tagName: "div", classNames: ["winners-content"] });
-
 export function createNewCarArea(car: Car) {
   const carAreaButtons = createElement({ tagName: "div", classNames: ["car-area-buttons"] });
   const selectButton = createElement({
@@ -54,11 +54,15 @@ export function createNewCarArea(car: Car) {
     classNames: ["finish-flag"],
     innerHTML: svgFlagElement,
   });
+
   garageArea.append(garageContent);
   actionButtons.append(aButton, bButton);
   carAreaButtons.append(selectButton, removeButton, modalText);
   carArea.append(carAreaButtons, actionButtons, svgCar, road, finishFlag);
   garageContent.prepend(carArea);
+
+  // CarController(car, svgCar, aButton, bButton, road);
+
   if (state.totalCars > 7) {
     state.components.nextButton?.classList.remove("next-button_disabled");
   }

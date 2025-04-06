@@ -167,6 +167,9 @@ input {
 .road {
   position: relative;
   top: -100px;
+
+  overflow: hidden;
+
   width: 100%;
   border-bottom: 3px dashed var(--text-color);
 }
@@ -222,8 +225,53 @@ input {
   text-align: center;
 }
 
+.car {
+  will-change: transform;
+
+  position: relative;
+  bottom: 0;
+  left: 0;
+
+  display: inline-block;
+
+  transition: none;
+}
+
+@media (width <= 600px) {
+  .road {
+    height: 1px;
+    margin-top: 10px;
+  }
+
+  .car {
+    width: 60px;
+  }
+}
+
 @media (hover: hover) {
   button:hover {
     background-color: var(--button-hover-color);
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0) rotate(0);
+  }
+
+  25% {
+    transform: translateX(-5px) rotate(-5deg);
+  }
+
+  50% {
+    transform: translateX(5px) rotate(5deg);
+  }
+
+  75% {
+    transform: translateX(-5px) rotate(-5deg);
+  }
+
+  100% {
+    transform: translateX(5px) rotate(5deg);
   }
 }

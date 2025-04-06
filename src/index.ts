@@ -2,11 +2,10 @@ import "./index.css";
 import { garageArea } from "./components/areas/createNewCarArea";
 import { state } from "./store/state";
 import { chooseModesContainer } from "./components/areas/modesArea";
-import chooseRoomContainer from "./components/areas/chooseRoomArea";
 import prevNextButtonsContainer from "./components/areas/prevNextButtonsArea";
-import prevButton from "./components/buttons/prevButton";
-import nextButton from "./components/buttons/nextButton";
 import showGaragePage from "./pages/garage";
+import { chooseRoomContainer } from "./pages/app";
+import { nextButton, prevButton } from "./components/buttons/nextNextButtons";
 
 async function loadGaragePage() {
   const totalPages = Math.ceil(state.totalCars / state.carsPerPage);

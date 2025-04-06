@@ -1,4 +1,4 @@
-import { Car, CarsResponse, CarWinner, NewCar, CarsStatus } from "../types/interfaces";
+import { Car, CarsResponse, CarWinner, NewCar, CarEngineResponse } from "../types/interfaces";
 
 const BASE_URL = "http://127.0.0.1:3000";
 const DEFAULT_PAGE_LIMIT = 7;
@@ -73,11 +73,18 @@ export async function deleteCarFromGarage(id: number): Promise<void> {
   });
 }
 
-// it doesn't use yet
-export async function controlCarEngine(id: number, status: boolean): Promise<CarsStatus> {
+export async function controlCarEngine(
+  id: number,
+  status: "started" | "stopped" | "drive",
+): Promise<CarEngineResponse> {
   const response = await fetch(`${BASE_URL}/engine?id=${id}&status=${status}`, {
     method: "PATCH",
   });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Failed to control car engine");
+  }
   return response.json();
 }
 
