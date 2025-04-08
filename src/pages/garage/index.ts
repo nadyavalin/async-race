@@ -1,4 +1,4 @@
-import getCarsPerPage from "src/api/api";
+import { getCarsPerPage } from "src/api/api";
 import deleteCar from "src/components/buttons/deleteCarButton";
 import selectCar from "src/components/buttons/selectCarButton";
 import { createNewCarArea, garageArea, garageContent } from "src/components/areas/createNewCarArea";
@@ -26,12 +26,12 @@ const createGarageHeader = (total: number, page: number) => {
 
 async function showGaragePage(): Promise<HTMLDivElement> {
   try {
-    const carsResponse = await getCarsPerPage(state.page);
+    const carsResponse = await getCarsPerPage(state.garagePage);
 
     state.totalCars = Number(carsResponse.total);
     state.cars = carsResponse.cars;
 
-    createGarageHeader(state.totalCars, state.page);
+    createGarageHeader(state.totalCars, state.garagePage);
 
     garageContent.innerHTML = "";
     carsResponse.cars.forEach((car) => {

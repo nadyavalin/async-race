@@ -1,111 +1,104 @@
-import getCarsPerPage, { getWinners } from "src/api/api";
+import { getWinners } from "src/api/api";
+import state from "src/store/state";
 import { winnersContent } from "src/components/areas/createNewCarArea";
 import { svgCarElement } from "src/components/svgElements";
 import createElement from "src/utils/createElement";
 
-type Winner = {
-  id: number;
-  wins: number;
-  time: number;
-};
-
-type Car = {
-  id: number;
-  name: string;
-  color: string;
-};
-
-const createCarSvg = (color: string): HTMLElement => {
-  const carSvg = createElement({
-    tagName: "div",
-    classNames: ["car", "car_small"],
-    innerHTML: svgCarElement,
-  });
-  carSvg.style.setProperty("--svg-fill-color", color);
-  return carSvg;
-};
-
-const createTableHeader = (): HTMLTableSectionElement => {
-  const thead = document.createElement("thead");
-  const headerRow = document.createElement("tr");
-  headerRow.classList.add("head-row-table");
-
-  const headers = ["Number", "Car", "Name", "Wins", "Best time (seconds)"];
-
-  headers.forEach((headerText) => {
-    const headerCell = document.createElement("th");
-    headerCell.textContent = headerText;
-    headerRow.append(headerCell);
-  });
-
-  thead.append(headerRow);
-  return thead;
-};
-
-const createWinnerRow = (winner: Winner, car: Car, index: number): HTMLTableRowElement => {
-  const row = document.createElement("tr");
-
-  const cells = [
-    { value: `${index + 1}`, class: "cell-table" },
-    { value: createCarSvg(car.color), class: "cell-table" },
-    { value: car.name, class: "cell-table" },
-    { value: winner.wins.toString(), class: "cell-table" },
-    { value: winner.time.toString(), class: "cell-table" },
-  ];
-
-  cells.forEach((cellData) => {
-    const cell = document.createElement("td");
-    cell.classList.add(cellData.class);
-
-    if (typeof cellData.value === "string") {
-      cell.textContent = cellData.value;
-    } else {
-      cell.appendChild(cellData.value);
+async function updateWinnersTable(): Promise<void> {
+  try {
+    while (winnersContent.firstChild) {
+      winnersContent.removeChild(winnersContent.firstChild);
     }
 
-    row.appendChild(cell);
-  });
+    const winnersResponse = await getWinners();
+    const winners = Array.isArray(winnersResponse?.winners) ? winnersResponse.winners : [];
 
-  return row;
-};
+    if (winners.length === 0) {
+      const noWinnersMessage = createElement({
+        tagName: "div",
+        classNames: ["no-winners-message"],
+        textContent: "No winners yet. Be the first!",
+      });
+      winnersContent.appendChild(noWinnersMessage);
+      return;
+    }
 
-async function createWinnersTable(): Promise<HTMLDivElement> {
-  try {
-    winnersContent.innerHTML = "";
-    const [winners, carsData] = await Promise.all([getWinners(), getCarsPerPage()]);
-
-    const { cars } = carsData;
     const table = document.createElement("table");
     table.classList.add("winners-table");
-    table.appendChild(createTableHeader());
 
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+    headerRow.classList.add("head-row-table");
+
+    ["Number", "Car", "Name", "Wins", "Best time (seconds)"].forEach((headerText) => {
+      const th = document.createElement("th");
+      th.textContent = headerText;
+      headerRow.appendChild(th);
+    });
+
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
     const tbody = document.createElement("tbody");
-    winners.forEach((winner: Winner, index: number) => {
-      const car: Car = cars.find((c: Car) => c.id === winner.id) ||
-        cars[index] || {
-          id: -1,
-          name: "Unknown",
-          color: "#000000",
-        };
-      tbody.appendChild(createWinnerRow(winner, car, index));
+    const sortedWinners = [...winners].sort((a, b) => {
+      if (b.wins !== a.wins) return b.wins - a.wins;
+      return a.time - b.time;
+    });
+
+    sortedWinners.forEach((winner, index) => {
+      const car = state.cars.find((c) => c.id === winner.id) || {
+        id: winner.id,
+        name: `Car ${winner.id}`,
+        color: "#000000",
+      };
+
+      const row = document.createElement("tr");
+      [
+        { value: (index + 1).toString(), class: "number-cell" },
+        {
+          value: createElement({
+            tagName: "div",
+            classNames: ["car", "car_small"],
+            innerHTML: svgCarElement,
+          }),
+          class: "car-cell",
+          process: (el: HTMLElement) => {
+            el.style.setProperty("--svg-fill-color", car.color);
+            return el;
+          },
+        },
+        { value: car.name, class: "name-cell" },
+        { value: winner.wins.toString(), class: "wins-cell" },
+        { value: winner.time.toFixed(2), class: "time-cell" },
+      ].forEach((cellConfig) => {
+        const td = document.createElement("td");
+        td.classList.add("cell-table", cellConfig.class);
+
+        if (typeof cellConfig.value === "string") {
+          td.textContent = cellConfig.value;
+        } else {
+          const element = cellConfig.process
+            ? cellConfig.process(cellConfig.value)
+            : cellConfig.value;
+          td.appendChild(element);
+        }
+
+        row.appendChild(td);
+      });
+
+      tbody.appendChild(row);
     });
 
     table.appendChild(tbody);
     winnersContent.appendChild(table);
-
-    return winnersContent;
   } catch (error) {
+    winnersContent.innerHTML = "";
     const errorMessage = createElement({
       tagName: "div",
       classNames: ["error-message"],
-      textContent: `${error}. Failed to load winners data. Please try again later.`,
+      textContent: "Failed to load winners data. Please try again later.",
     });
-
-    winnersContent.innerHTML = "";
     winnersContent.appendChild(errorMessage);
-
-    return winnersContent;
   }
 }
 
-export default createWinnersTable;
+export default updateWinnersTable;

@@ -9,21 +9,37 @@ export interface Car extends NewCar {
 
 export interface CarsResponse {
   cars: Car[];
-  total: string | null;
+  total: number;
 }
 
-export interface CarWinner {
+export interface NewWinner {
   id: number;
   wins: number;
   time: number;
 }
 
-export interface State {
-  page: number;
+export interface Winner extends NewWinner {
+  name?: string;
+  color?: string;
+}
+
+export interface WinnersResponse {
+  winners: Winner[];
+  total: number;
+}
+
+export interface AppState {
+  garagePage: number;
+  winnersPage: number;
   cars: Car[];
+  winners: Winner[];
   carsPerPage: number;
+  winnersPerPage: number;
   totalCars: number;
+  totalWinners: number;
   selectedCar?: Car;
+  sortBy: "id" | "wins" | "time";
+  sortOrder: "ASC" | "DESC";
   selectedCarArea: HTMLDivElement | null;
   components: Components;
 }
@@ -34,11 +50,15 @@ interface Components {
   inputUpdateCarColor: HTMLInputElement | null;
 }
 
-export interface CarStatus {
+export interface EngineStatus {
   status: "started" | "stopped" | "drive";
 }
 
 export interface CarEngineResponse {
   velocity: number;
   distance: number;
+}
+
+export interface DriveModeResponse {
+  success: boolean;
 }

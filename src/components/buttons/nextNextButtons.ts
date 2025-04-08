@@ -17,13 +17,13 @@ export const nextButton = createElement({
 });
 
 prevButton.addEventListener("click", async () => {
-  if (state.page > 1) {
+  if (state.garagePage > 1) {
     prevButton.classList.add("prev-button_disabled");
     nextButton.classList.add("next-button_disabled");
-    state.page -= 1;
+    state.garagePage -= 1;
     nextButton.classList.remove("next-button_disabled");
     await renderGarageContent();
-    if (state.page !== 1) {
+    if (state.garagePage !== 1) {
       prevButton.classList.remove("prev-button_disabled");
     }
   }
@@ -31,13 +31,13 @@ prevButton.addEventListener("click", async () => {
 
 nextButton.addEventListener("click", async () => {
   const totalPages = Math.ceil(state.totalCars / state.carsPerPage);
-  if (state.page < totalPages) {
+  if (state.garagePage < totalPages) {
     prevButton.classList.add("prev-button_disabled");
     nextButton.classList.add("next-button_disabled");
-    state.page += 1;
+    state.garagePage += 1;
     prevButton.classList.remove("prev-button_disabled");
     await renderGarageContent();
-    if (state.page !== totalPages) {
+    if (state.garagePage !== totalPages) {
       nextButton.classList.remove("next-button_disabled");
     }
   }

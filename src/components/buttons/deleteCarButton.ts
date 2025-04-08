@@ -1,5 +1,5 @@
 import { deleteCarFromGarage } from "src/api/api";
-import { state } from "../../store/state";
+import state from "../../store/state";
 
 export default async function deleteCar(eventTarget: HTMLDivElement) {
   const carElement = eventTarget.closest(".car-area") as HTMLDivElement;

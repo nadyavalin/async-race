@@ -1,8 +1,8 @@
+import { startCarAnimation, stopCarAnimation } from "src/animation";
 import createElement from "../../utils/createElement";
 import { svgCarElement, svgFlagElement } from "../svgElements";
 import { Car } from "../../types/interfaces";
-import { state } from "../../store/state";
-// import CarController from "../carController";
+import state from "../../store/state";
 
 export const garageContent = createElement({ tagName: "div", classNames: ["garage-content"] });
 export const garageArea = createElement({ tagName: "div", classNames: ["garage-area"] });
@@ -61,7 +61,27 @@ export function createNewCarArea(car: Car) {
   carArea.append(carAreaButtons, actionButtons, svgCar, road, finishFlag);
   garageContent.prepend(carArea);
 
-  // CarController(car, svgCar, aButton, bButton, road);
+  aButton.addEventListener("click", async () => {
+    aButton.innerHTML = '<div class="spinner"></div>';
+    aButton.disabled = true;
+    bButton.disabled = false;
+
+    try {
+      await startCarAnimation(car.id.toString(), svgCar);
+      aButton.textContent = "A";
+    } catch (error) {
+      aButton.textContent = "A";
+      aButton.style.backgroundColor = "#ff9800";
+    } finally {
+      aButton.disabled = false;
+    }
+  });
+
+  bButton.addEventListener("click", () => {
+    bButton.disabled = true;
+    stopCarAnimation(car.id.toString());
+    bButton.disabled = false;
+  });
 
   if (state.totalCars > 7) {
     state.components.nextButton?.classList.remove("next-button_disabled");

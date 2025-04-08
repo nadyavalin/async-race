@@ -8,7 +8,7 @@ async function renderGarageContent() {
   await showGaragePage();
 
   const totalPages = Math.ceil(state.totalCars / state.carsPerPage);
-  if (state.totalCars <= 7 || state.page === totalPages) {
+  if (state.totalCars <= 7 || state.garagePage === totalPages) {
     state.components.nextButton?.classList.add("next-button_disabled");
   }
 

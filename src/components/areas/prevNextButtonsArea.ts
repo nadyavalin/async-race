@@ -1,5 +1,5 @@
 import createElement from "../../utils/createElement";
-import { state } from "../../store/state";
+import state from "../../store/state";
 import { nextButton, prevButton } from "../buttons/nextNextButtons";
 
 const prevNextButtonsContainer = createElement({

@@ -1,4 +1,4 @@
-import { state } from "src/store/state";
+import state from "src/store/state";
 import { generateRandomCarData } from "src/utils/utils";
 import { createNewCarInGarage } from "src/api/api";
 import renderGarageContent from "src/render/render";
@@ -32,19 +32,19 @@ const raceButton = createElement({
   tagName: "button",
   classNames: ["race-button"],
   textContent: "race",
-  attributes: { name: "race" },
+  attributes: { id: "race", name: "race" },
 });
 const resetButton = createElement({
   tagName: "button",
   classNames: ["reset-button"],
   textContent: "reset",
-  attributes: { name: "reset" },
+  attributes: { id: "reset", name: "reset" },
 });
 const generateCarsButton = createElement({
   tagName: "button",
   classNames: ["generate-button"],
   textContent: "generate cars",
-  attributes: { name: "generate" },
+  attributes: { id: "generate", name: "generate" },
 });
 
 state.components.inputUpdateCarModel = inputUpdateCarModel;

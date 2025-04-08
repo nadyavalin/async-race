@@ -17,6 +17,8 @@
   --table-border-color: #3079df;
   --table-background-color: #002962;
   --top-cell-color: #004fbd;
+  --spin-border-color: #f3f3f3;
+  --spin-border-top-color: #3079df;
 }
 
 body {
@@ -139,6 +141,7 @@ input {
 .a-button,
 .b-button {
   width: 30px;
+  padding: 5px;
   border: 1px solid var(--button-color);
   background-color: transparent;
 }
@@ -237,6 +240,22 @@ input {
   transition: none;
 }
 
+.car.broken {
+  opacity: 0.5;
+  filter: grayscale(100%);
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  margin: 0 auto;
+  border: 2px solid var(--spin-border-color);
+  border-top: 1px solid var(--spin-border-top-color);
+  border-radius: 50%;
+
+  animation: spin 1s linear infinite;
+}
+
 @media (width <= 600px) {
   .road {
     height: 1px;
@@ -254,24 +273,12 @@ input {
   }
 }
 
-@keyframes shake {
+@keyframes spin {
   0% {
-    transform: translateX(0) rotate(0);
-  }
-
-  25% {
-    transform: translateX(-5px) rotate(-5deg);
-  }
-
-  50% {
-    transform: translateX(5px) rotate(5deg);
-  }
-
-  75% {
-    transform: translateX(-5px) rotate(-5deg);
+    transform: rotate(0deg);
   }
 
   100% {
-    transform: translateX(5px) rotate(5deg);
+    transform: rotate(360deg);
   }
 }

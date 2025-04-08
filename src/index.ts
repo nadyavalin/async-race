@@ -1,6 +1,6 @@
 import "./index.css";
 import { garageArea } from "./components/areas/createNewCarArea";
-import { state } from "./store/state";
+import state from "./store/state";
 import { chooseModesContainer } from "./components/areas/modesArea";
 import prevNextButtonsContainer from "./components/areas/prevNextButtonsArea";
 import showGaragePage from "./pages/garage";
@@ -18,11 +18,11 @@ async function loadGaragePage() {
     prevNextButtonsContainer,
   );
 
-  if (state.page === 1) {
+  if (state.garagePage === 1) {
     prevButton.classList.add("prev-button_disabled");
   }
 
-  if (state.page === totalPages || state.totalCars <= 7) {
+  if (state.garagePage === totalPages || state.totalCars <= 7) {
     nextButton.classList.add("next-button_disabled");
   }
 }
