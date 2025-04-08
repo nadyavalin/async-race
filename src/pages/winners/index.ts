@@ -4,7 +4,7 @@ import { winnersContent } from "src/components/areas/createNewCarArea";
 import { svgCarElement } from "src/components/svgElements";
 import createElement from "src/utils/createElement";
 
-async function updateWinnersTable(): Promise<void> {
+export async function updateWinnersTable(): Promise<void> {
   try {
     while (winnersContent.firstChild) {
       winnersContent.removeChild(winnersContent.firstChild);
@@ -101,4 +101,19 @@ async function updateWinnersTable(): Promise<void> {
   }
 }
 
-export default updateWinnersTable;
+async function createWinnersTable(): Promise<HTMLElement> {
+  try {
+    const table = document.createElement("div");
+    await updateWinnersTable();
+    return table;
+  } catch (error) {
+    const errorElement = createElement({
+      tagName: "div",
+      classNames: ["error-message"],
+      textContent: `Failed to load winners table: ${error}`,
+    });
+    return errorElement;
+  }
+}
+
+export default createWinnersTable;

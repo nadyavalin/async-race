@@ -19,6 +19,7 @@
   --top-cell-color: #004fbd;
   --spin-border-color: #f3f3f3;
   --spin-border-top-color: #3079df;
+  --error: #f00;
 }
 
 body {
@@ -254,6 +255,10 @@ input {
   border-radius: 50%;
 
   animation: spin 1s linear infinite;
+}
+
+.error-message {
+  color: var(--error);
 }
 
 @media (width <= 600px) {

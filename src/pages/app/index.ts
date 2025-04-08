@@ -4,6 +4,7 @@ import prevNextButtonsContainer from "src/components/areas/prevNextButtonsArea";
 import showGaragePage from "src/pages/garage";
 import createElement from "src/utils/createElement";
 import createRouter from "src/router/router";
+import state from "src/store/state";
 import createWinnersTable from "../winners";
 
 const router = createRouter();
@@ -49,29 +50,40 @@ const renderGarage = async () => {
   );
 };
 
-const renderWinners = async () => {
-  toWinners.classList.add("winners-button_disabled");
-  toGarage.classList.remove("garage-button_disabled");
+const renderWinners = async (): Promise<void> => {
+  try {
+    toWinners.classList.add("winners-button_disabled");
+    toGarage.classList.remove("garage-button_disabled");
 
-  const winnersText = createElement({
-    tagName: "p",
-    classNames: ["winners-text"],
-    textContent: "Winners (1)",
-  });
+    const winnersText = createElement({
+      tagName: "p",
+      classNames: ["winners-text"],
+      textContent: `Winners (${state.winners.length})`,
+    });
 
-  const pagesWinnersText = createElement({
-    tagName: "p",
-    classNames: ["pages"],
-    textContent: "Page #1",
-  });
+    const pagesWinnersText = createElement({
+      tagName: "p",
+      classNames: ["pages"],
+      textContent: `Page #${state.winnersPage}`,
+    });
 
-  winnersContent.innerHTML = "";
-  winnersContent.append(winnersText, pagesWinnersText);
+    winnersContent.innerHTML = "";
+    winnersContent.append(winnersText, pagesWinnersText);
 
-  const winnersTable = await createWinnersTable();
+    const winnersTable = await createWinnersTable();
+    winnersContent.appendChild(winnersTable);
 
-  document.body.innerHTML = "";
-  document.body.append(chooseRoomContainer, winnersContent, winnersTable, prevNextButtonsContainer);
+    document.body.innerHTML = "";
+    document.body.append(chooseRoomContainer, winnersContent, prevNextButtonsContainer);
+  } catch (error) {
+    const errorElement = createElement({
+      tagName: "div",
+      classNames: ["error-message"],
+      textContent: `Error rendering winners: ${error}`,
+    });
+    document.body.innerHTML = "";
+    document.body.append(chooseRoomContainer, errorElement, prevNextButtonsContainer);
+  }
 };
 
 router.addRoute("/garage", renderGarage);

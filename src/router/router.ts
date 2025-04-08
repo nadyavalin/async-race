@@ -1,7 +1,7 @@
-type Route = {
+interface Route {
   path: string;
   render: () => Promise<void>;
-};
+}
 
 const createRouter = () => {
   const routes: Route[] = [];

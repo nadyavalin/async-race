@@ -1,5 +1,5 @@
 import { startStopEngine, switchToDriveMode } from "./api/api";
-import updateWinnersTable from "./pages/winners";
+import { updateWinnersTable } from "./pages/winners";
 import state from "./store/state";
 
 const activeAnimations = new Map<string, number>();
